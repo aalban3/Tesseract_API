@@ -15,15 +15,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, include, re_path
-from updates.views import update_model_detail_view, JsonCBV, JsonCBV2, SerializedView, SerializedListView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', update_model_detail_view),
-    path('json/t1/', JsonCBV.as_view()),
-    path('json/t2/', JsonCBV2.as_view()),
-    path('json/serialized/', SerializedView.as_view()),
-    path('json/list/', SerializedListView.as_view()),
-    path('api/updates/', include('updates.api.urls')),
-    
+    path('', include('tweetSentiment.urls'))
 ]
