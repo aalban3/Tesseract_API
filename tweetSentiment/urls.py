@@ -3,5 +3,5 @@ from .views import tweet_list
 
 urlpatterns = [
     path('tweets/', tweet_list), # list and create
-    #path('<int:id>/', UpdateModelDetailAPIView.as_view()),
+    path('tweets/<query_value>/', tweet_list)
 ]

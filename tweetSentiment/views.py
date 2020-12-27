@@ -1,17 +1,15 @@
+from __future__ import unicode_literals
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from rest_framework.parsers import JSONParser
-from .models import Tweet
 from .serializers import TweetSerializer
-import json 
-from django.db import connection
+import json
+from .twitter import ApiAuth, MakeObj, TweetStruct
 
-# Create your views here.
-
-def tweet_list(request):
+def tweet_list(request, query_value):
     if request.method == 'GET':
-        tweets = Tweet.objects.all()
-        serializer = TweetSerializer(tweets,many=True)
+        tweet_obj = MakeObj(query_value).get_object()
+        serializer = TweetSerializer(tweet_obj)
         return JsonResponse(serializer.data, safe=False)
     elif request.method == 'POST':
         data = JSONParser().parse(request)

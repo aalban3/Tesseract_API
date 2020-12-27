@@ -1,1 +1,0 @@
-from .tai_tweepy import ApiAuth
