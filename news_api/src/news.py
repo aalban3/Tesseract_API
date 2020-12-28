@@ -7,6 +7,7 @@ BASE = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(BASE, "auth.json"),'r') as auth:
     ids = json.load(auth)
 
+
 # Init
 class NewsApi:
     def __init__(self, topic = None,sdate=date.today(),edate=date.today(), lang = 'en',src='bbc-news,the-verge',cat='business',ctry='us'):
