@@ -12,9 +12,7 @@ consumer_key            = env('CONSUMER_KEY')
 consumer_secret         = env('CONSUMER_SECRET')
 access_token            = env('ACCESS_TOKEN')
 access_token_secret     = env('ACCESS_TOKEN_SECRET')
-print("************")
-print(consumer_key)
-print("************")
+
 class ApiAuth:
     def __init__(self,ticker):
         self.ticker = ticker
@@ -27,7 +25,7 @@ class ApiAuth:
 
     def get_tweets(self): 
         query = self.ticker
-        count = 3
+        count = 120
         api = self.auth()
         new_tweets = api.search(q=query, count=count, lang="en")
         return new_tweets
@@ -49,23 +47,31 @@ class MakeObj:
             ### Create Object and pass ticker to get tweets
             tweepy_res = ApiAuth(self.query)
             raw_tweets = tweepy_res.get_tweets()
-            ### convert to JSON
-            json_tweets = json.dumps(raw_tweets[0]._json)
-            tweets = json.loads(json_tweets)
-            if tweets["place"] is not None:
-                country = tweets["place"]["country"]
-            else:
-                country = 'None'
-            if tweets["place"] is not None:
-                country_code = tweets["place"]["country_code"]
-            else:
-                country_code = 'None'
-            tweet_obj   = TweetStruct(
-                user            =   tweets["user"]["screen_name"],
-                text            =   tweets["text"],
-                created_at      =   tweets["created_at"],
-                country         =   country,
-                country_code    =   country_code,
-                tweet_id        =   tweets["id"]
-)
+            tweet_obj = list()
+            # loop through all of the tweets you pulled
+            # each tweet has to be turned into an object before being returned
+            for tweet in raw_tweets:
+                json_tweets = json.dumps(tweet._json)
+                tweets = json.loads(json_tweets)
+                if tweets["place"] is not None:
+                    country = tweets["place"]["country"]
+                else:
+                    country = 'None'
+                if tweets["place"] is not None:
+                    country_code = tweets["place"]["country_code"]
+                else:
+                    country_code = 'None'
+                temp_obj   =  TweetStruct(
+                    user            =   tweets["user"]["screen_name"],
+                    text            =   tweets["text"],
+                    created_at      =   tweets["created_at"],
+                    country         =   country,
+                    country_code    =   country_code,
+                    tweet_id        =   tweets["id"]
+                )
+                
+                tweet_obj.append(temp_obj)
+            
+                
+            ## returns multiple objects with all the tweets obtained
             return tweet_obj

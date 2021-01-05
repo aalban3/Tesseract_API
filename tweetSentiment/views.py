@@ -9,8 +9,13 @@ from .twitter import ApiAuth, MakeObj, TweetStruct
 def tweet_list(request, query_value):
     if request.method == 'GET':
         tweet_obj = MakeObj(query_value).get_object()
-        serializer = TweetSerializer(tweet_obj)
-        return JsonResponse(serializer.data, safe=False)
+        serializer_objects = list()
+        # serializer only takes one object at a time
+        # loop through the object and get the data from it before returning
+        for obj in tweet_obj:
+            serializer_objects.append(TweetSerializer(obj).data)
+        
+        return JsonResponse(serializer_objects, safe=False)
     elif request.method == 'POST':
         data = JSONParser().parse(request)
         serializer = TweetSerializer(data=data)
