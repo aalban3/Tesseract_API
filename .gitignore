@@ -113,6 +113,9 @@ ENV/
 env.bak/
 venv.bak/
 
+# Work space
+*.code-workspace
+
 # Spyder project settings
 .spyderproject
 .spyproject

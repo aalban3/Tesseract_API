@@ -1,12 +1,12 @@
-from newsapi import NewsApiClient as news
+from newsapi import NewsApiClient as News
 from datetime import date
 import json
-import os.path
+from os import environ
+import environ
+env = environ.Env()
+environ.Env.read_env()
 
-BASE = os.path.dirname(os.path.abspath(__file__))
-with open(os.path.join(BASE, "auth.json"),'r') as auth:
-    ids = json.load(auth)
-
+news_key = env("NEWS_KEY")
 
 # Init
 class NewsApi:
@@ -18,7 +18,7 @@ class NewsApi:
         self.src      = src 
         self.cat      = cat
         self.ctry     = ctry
-        self._newsAPI = news(api_key=ids['api_key'])
+        self._newsAPI = News(news_key)
     def sort_news(self):
         # code to sort news goes in here. Need to learn how to make tables in Django
         pass
