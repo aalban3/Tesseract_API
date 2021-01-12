@@ -15,4 +15,7 @@ def tickerNews(request, topic):
         return JsonResponse(serializer_objects, safe=False)
  
 def allNews(request):
-    return "All news"
+    if request.method == 'GET':
+        my_news = NewsApi(topic='parler')
+        top_headlines = my_news.get_headlines()
+        return JsonResponse(top_headlines, safe=False)

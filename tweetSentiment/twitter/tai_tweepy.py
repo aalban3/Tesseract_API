@@ -2,17 +2,12 @@ import json
 import tweepy
 from tweepy import OAuthHandler
 from tweepy.parsers import JSONParser
-from os import environ
-import environ
-env = environ.Env()
-environ.Env.read_env()
+import os
 
-# Twitter Authx
-consumer_key            = env('CONSUMER_KEY')
-consumer_secret         = env('CONSUMER_SECRET')
-access_token            = env('ACCESS_TOKEN')
-access_token_secret     = env('ACCESS_TOKEN_SECRET')
-
+consumer_key            = os.getenv('CONSUMER_KEY')
+consumer_secret         = os.getenv('CONSUMER_SECRET')
+access_token            = os.getenv('ACCESS_TOKEN')
+access_token_secret     = os.getenv('ACCESS_TOKEN_SECRET')
 class ApiAuth:
     def __init__(self,ticker):
         self.ticker = ticker
