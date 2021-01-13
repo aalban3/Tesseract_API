@@ -40,4 +40,19 @@ class NewsApi:
     # /v2/sources
     def get_sources(self):
         return self._newsAPI.get_sources()
-    
+
+class NewsStruct:
+    def __init__(self,author,title,description,url,content,source,publishedAt):
+        self.author = author
+        self.title = title
+        self.description = description
+        self.url = url
+        self.content = content
+        self.source = source
+        self.publishedAt = publishedAt
+
+class MakeNewsObj:
+    def __init__(self,topic):
+        self.topic = topic
+    def get_news_obj(self):
+        news_res = NewsApi(topic)

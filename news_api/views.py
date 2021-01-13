@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from rest_framework.parsers import JSONParser
 import json
-from .src import NewsApi
+from .src import NewsApi, NewsStruct, MakeNewsObj
 
 # Create your views here.
 

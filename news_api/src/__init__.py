@@ -1,1 +1,1 @@
-from .news import NewsApi
+from .news import NewsApi, NewsStruct, MakeNewsObj
