@@ -1,5 +1,5 @@
 from newsapi import NewsApiClient as News
-from datetime import date
+from datetime import date, timedelta, datetime
 import json
 import os
 
@@ -7,7 +7,7 @@ news_key = os.getenv('NEWS_KEY')
 
 # Init
 class NewsApi:
-    def __init__(self, topic = None,sdate=date.today(),edate=date.today(), lang = 'en',src='bbc-news',cat='business',ctry='us'):
+    def __init__(self, topic = None,sdate=(datetime.now() - timedelta(days=1)),edate=date.today(), lang = 'en',src='bbc-news',cat='',ctry='us'):
         self.topic    = topic
         self.sdate    = sdate
         self.edate    = edate
@@ -22,21 +22,23 @@ class NewsApi:
     
     # /v2/top-headlines
     def get_headlines(self):
-        top_headlines = self._newsAPI.get_top_headlines(q=self.topic,
+        top_headlines = self._newsAPI.get_top_headlines(
                                           category=self.cat,
                                           language=self.lang,
                                           country=self.ctry)
+        #q=self.topic,
         return top_headlines
     # /v2/everything
     def get_all_news(self,domain='bbc.co.uk,techcrunch.com',sort_by='relevancy',pg=2):
         all_articles = self._newsAPI.get_everything(q=self.topic,
-                                      #sources=self.src,
+                                      sources=self.src,
                                       domains=domain,
                                       from_param=self.sdate,
                                       to=self.edate,
                                       language=self.lang,
                                       sort_by=sort_by,
                                       page=pg)    
+        return all_articles
     # /v2/sources
     def get_sources(self):
         return self._newsAPI.get_sources()
@@ -52,7 +54,15 @@ class NewsStruct:
         self.publishedAt = publishedAt
 
 class MakeNewsObj:
-    def __init__(self,topic):
+    def __init__(self,topic=None):
         self.topic = topic
-    def get_news_obj(self):
-        news_res = NewsApi(topic)
+    def headlines_obj(self):
+        news_res = NewsApi(topic=self.topic).get_all_news()
+        json_res = json.dumps(news_res)
+        news = json.loads(json_res)
+        return news
+    def topic_obj(self):
+        news_res = NewsApi().get_headlines()
+        json_res = json.dumps(news_res)
+        news = json.loads(json_res)
+        return news

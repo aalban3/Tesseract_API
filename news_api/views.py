@@ -8,14 +8,12 @@ from .src import NewsApi, NewsStruct, MakeNewsObj
 
 def tickerNews(request, topic):
     if request.method == 'GET':
-        news_obj = MakeObj(query_value).get_object()
-        serializer_objects = list()
-        for obj in tweet_obj:
-            serializer_objects.append(TweetSerializer(obj).data)
-        return JsonResponse(serializer_objects, safe=False)
+        my_news = MakeNewsObj(topic=topic)
+        top_headlines = my_news.headlines_obj()
+        return JsonResponse(top_headlines, safe=False)
  
 def allNews(request):
     if request.method == 'GET':
-        my_news = NewsApi(topic='parler')
-        top_headlines = my_news.get_headlines()
+        my_news = MakeNewsObj()
+        top_headlines = my_news.headlines_obj()
         return JsonResponse(top_headlines, safe=False)
