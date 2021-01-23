@@ -1,4 +1,5 @@
 from newsapi import NewsApiClient as News
+from textblob import TextBlob as tb
 from datetime import date, timedelta, datetime
 import json
 import os
@@ -58,8 +59,10 @@ class MakeNewsObj:
         self.topic = topic
     def headlines_obj(self):
         news_res = NewsApi(topic=self.topic).get_all_news()
+        print('*** Attributes ***')
         json_res = json.dumps(news_res)
         news = json.loads(json_res)
+        print(news['articles'][0])
         return news
     def topic_obj(self):
         news_res = NewsApi().get_headlines()

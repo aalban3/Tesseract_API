@@ -9,6 +9,7 @@ from .src import NewsApi, NewsStruct, MakeNewsObj
 def tickerNews(request, topic):
     if request.method == 'GET':
         my_news = MakeNewsObj(topic=topic)
+        
         top_headlines = my_news.headlines_obj()
         return JsonResponse(top_headlines, safe=False)
  
