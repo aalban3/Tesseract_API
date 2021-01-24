@@ -44,7 +44,7 @@ class NewsApi:
     def get_sources(self):
         return self._newsAPI.get_sources()
 
-class NewsStruct:
+class ArticleStruct:
     def __init__(self,author,title,description,url,content,source,publishedAt):
         self.author = author
         self.title = title
@@ -59,13 +59,18 @@ class MakeNewsObj:
         self.topic = topic
     def headlines_obj(self):
         news_res = NewsApi(topic=self.topic).get_all_news()
-        print('*** Attributes ***')
         json_res = json.dumps(news_res)
-        news = json.loads(json_res)
-        print(news['articles'][0])
-        return news
+        all_news = json.loads(json_res)
+        news_obj = {'results': all_news['totalResults'],'articles': []}
+        for article in all_news['articles']:
+            news_obj['articles'].append(article)
+        return news_obj
     def topic_obj(self):
         news_res = NewsApi().get_headlines()
         json_res = json.dumps(news_res)
         news = json.loads(json_res)
         return news
+
+class NewsSentiment:
+    pass
+    
