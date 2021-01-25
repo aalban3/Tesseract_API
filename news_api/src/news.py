@@ -8,7 +8,7 @@ news_key = os.getenv('NEWS_KEY')
 
 # Init
 class NewsApi:
-    def __init__(self, topic = None,sdate=(datetime.now() - timedelta(days=1)),edate=date.today(), lang = 'en',src='bbc-news',cat='',ctry='us'):
+    def __init__(self, topic = None,sdate=(datetime.now() - timedelta(days=1)),edate=date.today(),lang = 'en',src='google-news',cat='',ctry='us'):
         self.topic    = topic
         self.sdate    = sdate
         self.edate    = edate
@@ -24,7 +24,6 @@ class NewsApi:
     # /v2/top-headlines
     def get_headlines(self):
         top_headlines = self._newsAPI.get_top_headlines(
-                                          category=self.cat,
                                           language=self.lang,
                                           country=self.ctry)
         #q=self.topic,
@@ -58,7 +57,7 @@ class MakeNewsObj:
     def __init__(self,topic=None):
         self.topic = topic
     def headlines_obj(self):
-        news_res = NewsApi(topic=self.topic).get_all_news()
+        news_res = NewsApi().get_headlines()
         json_res = json.dumps(news_res)
         all_news = json.loads(json_res)
         news_obj = {'results': all_news['totalResults'],'articles': []}
@@ -66,11 +65,8 @@ class MakeNewsObj:
             news_obj['articles'].append(article)
         return news_obj
     def topic_obj(self):
-        news_res = NewsApi().get_headlines()
+        news_res = NewsApi(topic=self.topic).get_headlines()
         json_res = json.dumps(news_res)
         news = json.loads(json_res)
         return news
-
-class NewsSentiment:
-    pass
     
