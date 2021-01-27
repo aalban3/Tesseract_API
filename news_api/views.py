@@ -3,15 +3,16 @@ from django.http import JsonResponse, HttpResponse
 from rest_framework.parsers import JSONParser
 import json
 from .src import MakeNewsObj
+from .serializers import NewsSentimentSerializer
 
 # Create your views here.
 
 def tickerNews(request, topic):
     if request.method == 'GET':
-        my_news = MakeNewsObj(topic=topic)
-        
-        top_headlines = my_news.headlines_obj()
-        return JsonResponse(top_headlines, safe=False)
+        my_news = MakeNewsObj(topic=topic).headlines_obj()
+        top_headlines = NewsSentimentSerializer(data = my_news)
+        #top_headlines = my_news.headlines_obj()
+        return JsonResponse(top_headlines.data, safe=False)
  
 def allNews(request):
     if request.method == 'GET':

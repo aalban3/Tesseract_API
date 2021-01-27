@@ -24,5 +24,5 @@ sentiment = SentimentAnalysis(news)
 # print(sentiment.get_sentiment().subjectivity)
 
 ex = tb(news)
-print(ex.sentences)
+
 #cl = NaiveBayesClassifier(ex.sentences)

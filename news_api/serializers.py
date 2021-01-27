@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .src import ArticleStruct
+from .src import ArticleStruct, NewsStruct
 
 class ArticleSerializer(serializers.Serializer):
     author              = serializers.CharField(max_length=20)
@@ -12,7 +12,9 @@ class ArticleSerializer(serializers.Serializer):
     
     def create(self, validated_data):
         return ArticleStruct(**validated_data)
-class NewsSentimentSerializer(serializer.Serializer):
+class NewsSentimentSerializer(serializers.Serializer):
     results             = serializers.IntegerField(max_value=20,min_value=0)
-    articles            = ArticleSerializer(many=True,read_only=True)
-    sentiment           =       
+    articles            = ArticleSerializer(many=True) 
+    
+    def create(self, validated_data):
+        return NewsStruct(**validated_data)

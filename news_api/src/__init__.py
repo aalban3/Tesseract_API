@@ -1,2 +1,2 @@
-from .news import NewsApi, ArticleStruct, MakeNewsObj
+from .news import NewsApi, ArticleStruct, MakeNewsObj, NewsStruct
 from .news_sentiment import SentimentAnalysis
