@@ -67,6 +67,6 @@ class MakeObj:
                 
                 tweet_obj.append(temp_obj)
             
-                
+            print(tweet_obj)    
             ## returns multiple objects with all the tweets obtained
             return tweet_obj

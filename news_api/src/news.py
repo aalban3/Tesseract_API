@@ -52,31 +52,25 @@ class ArticleStruct:
         self.content = content
         self.source = source
         self.publishedAt = publishedAt
-class NewsStruct:
-    def __init__(self, results, articles):
-        self.results   = results
-        self.articles  = articles
-        
 class MakeNewsObj:
     def __init__(self,topic=None):
         self.topic = topic
     def headlines_obj(self):
         news_res = NewsApi().get_headlines()
-        json_res = json.dumps(news_res)
-        all_news = json.loads(json_res)
-        news_obj = {'results': all_news['totalResults'],'articles': []}
-        for article in all_news['articles']:
+        articles = news_res['articles']
+        news_obj = list()
+        for article in articles:
+            print(article['source']['name'])
             article_obj = ArticleStruct(
                 author          = article['author'],
                 title           = article['title'],
                 description     = article['description'],
-                content         = article['content'],
-                publishedAt     = article['publishedAt'],
                 url             = article['url'],
-                source          = article['source']['name']
+                content         = article['content'],
+                source          = article['source']['name'],
+                publishedAt     = article['publishedAt']
             )
-            news_obj['articles'].append(article_obj)
-        print(news_obj)
+            news_obj.append(article_obj)
         return news_obj
     
     def topic_obj(self):
