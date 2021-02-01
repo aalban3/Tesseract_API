@@ -1,8 +1,10 @@
 from newsapi import NewsApiClient as News
 from textblob import TextBlob as tb
 from datetime import date, timedelta, datetime
+from .news_sentiment import SentimentAnalysis
 import json
 import os
+import time
 
 news_key = os.getenv('NEWS_KEY')
 
@@ -56,11 +58,13 @@ class MakeNewsObj:
     def __init__(self,topic=None):
         self.topic = topic
     def headlines_obj(self):
+        #start = time.time()
         news_res = NewsApi().get_headlines()
         articles = news_res['articles']
         news_obj = list()
+        to_analyze = list()
         for article in articles:
-            print(article['source']['name'])
+            to_analyze.append(article['content'])
             article_obj = ArticleStruct(
                 author          = article['author'],
                 title           = article['title'],
@@ -71,6 +75,17 @@ class MakeNewsObj:
                 publishedAt     = article['publishedAt']
             )
             news_obj.append(article_obj)
+        seen_phrases = {}
+        for content in to_analyze:
+            if content != None:
+                noun_phrases = SentimentAnalysis(content).get_noun_phrases()
+                for phrase in noun_phrases:
+                    if phrase in seen_phrases.keys():
+                        seen_phrases[phrase] += 1
+                    else:
+                        seen_phrases[phrase] = 1
+        #end = time.time()  
+        #print(f'Function took {end - start} seconds')     
         return news_obj
     
     def topic_obj(self):
